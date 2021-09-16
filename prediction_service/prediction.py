@@ -67,7 +67,7 @@ def __validate_schema(data_dict):
         if schema[col]["min"] <= data_dict[col] <= schema[col]["max"]:
             pass
         else:
-            raise NotInRange(message=f"Entered unusual value for {col}. "
+            raise NotInRange(message=f"Entered unusual value for {col}.\n"
                                      f"The range of {col} is in B/W {schema[col]['min']} and {schema[col]['max']}")
 
 

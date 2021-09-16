@@ -52,7 +52,7 @@ def home():
             return render_template("home.html")
     except Exception as e:
         log_detail(logger, [str(e)])
-        return render_template("404.html", error="Entered some unusual values! Please check your values again!")
+        return render_template("404.html", error=str(e))
 
 
 if __name__ == "__main__":
