@@ -1,0 +1,12 @@
+dvc
+dvc[gdrive]
+pandas
+numpy
+pyyaml
+sklearn
+matplotlib
+seaborn
+flask
+gunicorn
+scikit-learn
+cassandra-driver

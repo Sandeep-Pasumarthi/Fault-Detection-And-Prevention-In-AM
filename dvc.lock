@@ -1,0 +1,183 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python src/load_data.py --config=params.yaml
+    deps:
+    - path: data_source/pred_main.csv
+      md5: a114bb1b1f301dd3a2537aff2002f753
+      size: 523915
+    - path: src/load_data.py
+      md5: d1b685a455a5fef525018e622740de84
+      size: 1739
+    outs:
+    - path: data/raw/pred_main.csv
+      md5: a114bb1b1f301dd3a2537aff2002f753
+      size: 523915
+  initial_processing:
+    cmd: python src/initial_processing.py --config=params.yaml
+    deps:
+    - path: data/raw/pred_main.csv
+      md5: a114bb1b1f301dd3a2537aff2002f753
+      size: 523915
+    - path: src/initial_processing.py
+      md5: 8dcaaff38963dd09b93fe95052d7742f
+      size: 2413
+    outs:
+    - path: data/processed/pred_main_processed.csv
+      md5: 10aa2d1e7d3a5d6f7a41e7c692dbba76
+      size: 525444
+  splitting_data:
+    cmd: python src/split_data.py --config=params.yaml
+    deps:
+    - path: data/processed/pred_main_processed.csv
+      md5: 10aa2d1e7d3a5d6f7a41e7c692dbba76
+      size: 525444
+    - path: src/split_data.py
+      md5: 67e765693bd1955842e28cb665214e69
+      size: 1643
+    outs:
+    - path: data/processed/test.csv
+      md5: 4b7a1098e7edf39487276927eb224617
+      size: 52324
+    - path: data/processed/train.csv
+      md5: f31e5cb6a8f8d18c294de5406b3dc043
+      size: 471929
+  scaling_data:
+    cmd: python src/scale_data.py --config=params.yaml
+    deps:
+    - path: data/processed/test.csv
+      md5: 4b7a1098e7edf39487276927eb224617
+      size: 52324
+    - path: data/processed/train.csv
+      md5: f31e5cb6a8f8d18c294de5406b3dc043
+      size: 471929
+    - path: src/scale_data.py
+      md5: 4f4b75341478a11efd75e6d986cebc10
+      size: 7310
+    outs:
+    - path: data/processed/pre_test.csv
+      md5: 381f389453db71258e5244ac9305abf4
+      size: 187223
+    - path: data/processed/pre_train.csv
+      md5: 7aa73d2646167e5e3fcaf92fdc24b96e
+      size: 1683250
+    - path: data_processing_service/encoders/encoder.pkl
+      md5: 25dd4fbf88288ce3f7507f77a342dca7
+      size: 407
+    - path: data_processing_service/master_service/encoder_schema.json
+      md5: d945ae8d08ff1aa355b86124a0e5fd29
+      size: 18
+    - path: data_processing_service/master_service/robust_scalar.pkl
+      md5: 2bb306aa51b201553a7ff5357e2673ca
+      size: 590
+    - path: data_processing_service/master_service/scalar_schema.json
+      md5: e185e4ef20c61bdebfd6e363a4bb8e73
+      size: 113
+    - path: data_processing_service/master_service/standard_scalar.pkl
+      md5: 611ebedf81a02c5b433a7c2366c08674
+      size: 752
+    - path: data_processing_service/scalers/robust_scalar.pkl
+      md5: 2bb306aa51b201553a7ff5357e2673ca
+      size: 590
+    - path: data_processing_service/scalers/standard_scalar.pkl
+      md5: 611ebedf81a02c5b433a7c2366c08674
+      size: 752
+  generate_schema:
+    cmd: python src/schema_generator.py --config=params.yaml
+    deps:
+    - path: data/raw/pred_main.csv
+      md5: a114bb1b1f301dd3a2537aff2002f753
+      size: 523915
+    - path: src/schema_generator.py
+      md5: ceef17f707146c14dc8c4c8821020423
+      size: 3371
+    outs:
+    - path: data_processing_service/master_service/category_schema.json
+      md5: 3f2d0fcd15be1e56a259c630803f0da4
+      size: 100
+    - path: data_processing_service/master_service/extra_schema.json
+      md5: 095aac9353f39923326a55eb82196e5b
+      size: 44
+    - path: data_processing_service/master_service/numeric_schema.json
+      md5: 54879e796aabb2f7eb936547bea200d8
+      size: 257
+  cluster_data:
+    cmd: python src/clustering.py --config=params.yaml
+    deps:
+    - path: data/processed/pre_test.csv
+      md5: 381f389453db71258e5244ac9305abf4
+      size: 187223
+    - path: data/processed/pre_train.csv
+      md5: 7aa73d2646167e5e3fcaf92fdc24b96e
+      size: 1683250
+    - path: src/clustering.py
+      md5: e942a4409872c387eff76bb6422c0823
+      size: 4318
+    outs:
+    - path: data/master/master_test.csv
+      md5: ec665662d2bce51045bef3963f2703e5
+      size: 202186
+    - path: data/master/master_train.csv
+      md5: dd367a538966eb7f9b33f40375390124
+      size: 1829392
+    - path: data_processing_service/master_service/cluster.pkl
+      md5: d23e73d05ea20de155a29bb52c371cbc
+      size: 37357
+    - path: data_processing_service/master_service/encoder.pkl
+      md5: 25dd4fbf88288ce3f7507f77a342dca7
+      size: 407
+    - path: data_processing_service/master_service/final_robust_scalar.pkl
+      md5: c9aab57b28997f855a75d41ee8ddb40d
+      size: 776
+    - path: data_processing_service/master_service/final_scalar_schema.json
+      md5: 14b7dbd69dd53c1347503790476fc1c8
+      size: 122
+    - path: data_processing_service/master_service/final_standard_scalar.pkl
+      md5: c9aab57b28997f855a75d41ee8ddb40d
+      size: 776
+  model_training:
+    cmd: python src/model_train.py --config=params.yaml
+    deps:
+    - path: data/master/master_test.csv
+      md5: ec665662d2bce51045bef3963f2703e5
+      size: 202186
+    - path: data/master/master_train.csv
+      md5: dd367a538966eb7f9b33f40375390124
+      size: 1829392
+    - path: src/model_train.py
+      md5: e57337173de3d2c7db092c02ef2026c4
+      size: 5253
+    outs:
+    - path: data/master/master_model_test.csv
+      md5: e81495d6e163c99e101cad8ae0c2d163
+      size: 120558
+    - path: data/master/master_model_train.csv
+      md5: 47a122c9bf70a5683b687e749fc02c19
+      size: 1085205
+    - path: data_processing_service/master_service/model_schema.json
+      md5: cfa05fb4ad7b1747f752c255096acd9b
+      size: 73
+    - path: prediction_service/best_model/random_forest.pkl
+      md5: 0ff593238c21cfa15c736c8bb5d1ae0e
+      size: 114923
+    - path: reports/best_model/feature_importance.png
+      md5: f1f3fb761bc51bafeb488e388407bb00
+      size: 37334
+    - path: reports/best_model/metrics.json
+      md5: c59ec3d176b6c966adfc9ffecd6114ae
+      size: 148
+  transfer_requirements:
+    cmd: python src/transfer_to_prediction.py --config=params.yaml
+    deps:
+    - path: data_processing_service/master_service
+      md5: fc373b602138a40d0a277673c12eefa5.dir
+      size: 41664
+      nfiles: 15
+    - path: src/transfer_to_prediction.py
+      md5: e1f4ec6769bdbc855400a1b598a44c41
+      size: 1306
+    outs:
+    - path: prediction_service/data_processing_service
+      md5: 786d39ee20eb1dd284651dfda7b735b0.dir
+      size: 41385
+      nfiles: 14

@@ -1,0 +1,66 @@
+base:
+  project: AI14-Predictive-Maintenance
+  random_state: 17
+  target_col: MACHINE_FAILURE
+
+data_source:
+  local_source: data_source/pred_main.csv
+
+load_data:
+  raw_dataset_csv: data/raw/pred_main.csv
+
+initial_processed_data:
+  processed_data_csv: data/processed/pred_main_processed.csv
+
+split_data:
+    train_path: data/processed/train.csv
+    test_path: data/processed/test.csv
+    test_size: 0.1
+
+schema:
+  numerical: data_processing_service/master_service/numeric_schema.json
+  categorical: data_processing_service/master_service/category_schema.json
+  extra: data_processing_service/master_service/extra_schema.json
+
+scale_data:
+  robust_scalar: data_processing_service/scalers/robust_scalar.pkl
+  standard_scalar: data_processing_service/scalers/standard_scalar.pkl
+  master_robust_scalar: data_processing_service/master_service/robust_scalar.pkl
+  master_standard_scalar: data_processing_service/master_service/standard_scalar.pkl
+  encoders: data_processing_service/encoders/encoder.pkl
+  scaled_train_path: data/processed/pre_train.csv
+  scaled_test_path: data/processed/pre_test.csv
+  encoder_schema_path: data_processing_service/master_service/encoder_schema.json
+  scalar_schema_path: data_processing_service/master_service/scalar_schema.json
+
+cluster:
+  kmeans:
+    n_clusters: 8
+  cluster_model: data_processing_service/master_service/cluster.pkl
+  cluster_col: GROUP
+  robust_scalar: data_processing_service/master_service/final_robust_scalar.pkl
+  standard_scalar: data_processing_service/master_service/final_standard_scalar.pkl
+  scalar_schema_path: data_processing_service/master_service/final_scalar_schema.json
+  encoders: data_processing_service/master_service/encoder.pkl
+  master_train: data/master/master_train.csv
+  master_test: data/master/master_test.csv
+
+final_train:
+  random_forest:
+    n_estimators: 100
+    max_depth: 4
+    max_features: 6
+    n_jobs: -1
+    random_state: 17
+  reports_json: reports/best_model/metrics.json
+  reports_feature_importance: reports/best_model/feature_importance.png
+  model_schema_path: data_processing_service/master_service/model_schema.json
+  master_model_train: data/master/master_model_train.csv
+  master_model_test: data/master/master_model_test.csv
+  final_model: prediction_service/best_model/random_forest.pkl
+
+transfer_requirements:
+  source: data_processing_service/master_service
+  destination: prediction_service/data_processing_service
+
+web_app_model: prediction_service/best_model/random_forest.pkl

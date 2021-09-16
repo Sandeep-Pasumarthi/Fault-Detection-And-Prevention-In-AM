@@ -1,0 +1,89 @@
+stages:
+  load_data:
+    cmd: python src/load_data.py --config=params.yaml
+    deps:
+      - data_source/pred_main.csv
+      - src/load_data.py
+    outs:
+      - data/raw/pred_main.csv
+
+  generate_schema:
+    cmd: python src/schema_generator.py --config=params.yaml
+    deps:
+      - data/raw/pred_main.csv
+      - src/schema_generator.py
+    outs:
+      - data_processing_service/master_service/numeric_schema.json
+      - data_processing_service/master_service/category_schema.json
+      - data_processing_service/master_service/extra_schema.json
+
+  initial_processing:
+    cmd: python src/initial_processing.py --config=params.yaml
+    deps:
+      - data/raw/pred_main.csv
+      - src/initial_processing.py
+    outs:
+      - data/processed/pred_main_processed.csv
+
+  splitting_data:
+    cmd: python src/split_data.py --config=params.yaml
+    deps:
+      - data/processed/pred_main_processed.csv
+      - src/split_data.py
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  scaling_data:
+    cmd: python src/scale_data.py --config=params.yaml
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/scale_data.py
+    outs:
+      - data_processing_service/scalers/robust_scalar.pkl
+      - data_processing_service/scalers/standard_scalar.pkl
+      - data_processing_service/encoders/encoder.pkl
+      - data_processing_service/master_service/robust_scalar.pkl
+      - data_processing_service/master_service/standard_scalar.pkl
+      - data/processed/pre_train.csv
+      - data/processed/pre_test.csv
+      - data_processing_service/master_service/encoder_schema.json
+      - data_processing_service/master_service/scalar_schema.json
+
+  cluster_data:
+    cmd: python src/clustering.py --config=params.yaml
+    deps:
+      - data/processed/pre_train.csv
+      - data/processed/pre_test.csv
+      - src/clustering.py
+    outs:
+      - data_processing_service/master_service/final_robust_scalar.pkl
+      - data_processing_service/master_service/final_standard_scalar.pkl
+      - data_processing_service/master_service/final_scalar_schema.json
+      - data_processing_service/master_service/encoder.pkl
+      - data_processing_service/master_service/cluster.pkl
+      - data/master/master_train.csv
+      - data/master/master_test.csv
+
+  model_training:
+    cmd: python src/model_train.py --config=params.yaml
+    deps:
+      - data/master/master_train.csv
+      - data/master/master_test.csv
+      - src/model_train.py
+    outs:
+      - prediction_service/best_model/random_forest.pkl
+      - data_processing_service/master_service/model_schema.json
+      - reports/best_model/metrics.json
+      - reports/best_model/feature_importance.png
+      - data/master/master_model_train.csv
+      - data/master/master_model_test.csv
+
+  transfer_requirements:
+    cmd: python src/transfer_to_prediction.py --config=params.yaml
+    deps:
+      - data_processing_service/master_service
+      - src/transfer_to_prediction.py
+    outs:
+      - prediction_service/data_processing_service

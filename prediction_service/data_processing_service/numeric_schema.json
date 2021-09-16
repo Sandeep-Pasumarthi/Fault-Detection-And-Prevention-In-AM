@@ -1,0 +1,1 @@
+{"AIR_TEMPERATURE_[K]": {"min": 295.3, "max": 304.5}, "PROCESS_TEMPERATURE_[K]": {"min": 305.7, "max": 313.8}, "ROTATIONAL_SPEED_[RPM]": {"min": 1168.0, "max": 2886.0}, "TORQUE_[NM]": {"min": 3.8, "max": 76.6}, "TOOL_WEAR_[MIN]": {"min": 0.0, "max": 253.0}}
