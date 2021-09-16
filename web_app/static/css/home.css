@@ -1,0 +1,26 @@
+.home-form{
+  margin-top: 0.5em;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 0 0.6em #000;
+}
+
+.title{
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-top: 0em;
+  border-left: 0em;
+  border-right: 0em;
+  border-color: black;
+  border-style: solid;
+}
+
+#name{
+  color: #00A5EC;
+  font-family: 'Cinzel', serif;
+  font-size: 2em;
+}
+
+.text-centre{
+  text-align: center;
+}

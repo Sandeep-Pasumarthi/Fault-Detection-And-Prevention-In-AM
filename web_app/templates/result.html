@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+  </head>
+  <body class="text-centre">
+    <div class="container">
+      <div class="title">
+        <h1><span id="name">RESULT</span></h1>
+      </div>
+    <div class="container">
+    <form class="row g-3 home-form" method="post">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <label for="prediction" class="form-label">Prediction(Machine Failure)</label>
+        <input type="text" readonly class="form-control" id="prediction" value="{{prediction}}">
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <label for="col1" class="form-label">Unique Identifier(UDI)</label>
+        <input type="text" readonly class="form-control" id="col1" value="{{data['UDI']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col2" class="form-label">Product Id</label>
+        <input type="text" readonly class="form-control" id="col2" value="{{data['PRODUCT_ID']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col3" class="form-label">Type</label>
+        <input type="text" readonly class="form-control" id="col3" value="{{data['TYPE']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col4" class="form-label">Air Temperature(k)</label>
+        <input type="text" readonly class="form-control" id="col4" value="{{data['AIR_TEMPERATURE_[K]']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col5" class="form-label">Process Temperature(k)</label>
+        <input type="text" readonly class="form-control" id="col5" value="{{'PROCESS_TEMPERATURE_[K]'}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col6" class="form-label">Rotational Speed(RPM)</label>
+        <input type="text" readonly class="form-control" id="col6" value="{{data['ROTATIONAL_SPEED_[RPM]']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col7" class="form-label">Torque(NM)</label>
+        <input type="text" readonly class="form-control" id="col7" value="{{data['TORQUE_[NM]']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col8" class="form-label">Tool Wear(MIN)</label>
+        <input type="text" readonly class="form-control" id="col8" value="{{data['TOOL_WEAR_[MIN]']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col9" class="form-label">Tool Wear Failure(TWF)</label>
+        <input type="text" readonly class="form-control" id="col9" value="{{data['TWF']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col10" class="form-label">Heat Dissipation Failure(HDF)</label>
+        <input type="text" readonly class="form-control" id="col10" value="{{data['HDF']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col11" class="form-label">Power Failure(PWF)</label>
+        <input type="text" readonly class="form-control" id="col11" value="{{data['PWF']}}">
+      </div>
+      <div class="col-md-4">
+        <label for="col12" class="form-label">Over Strain Failure(OSF)</label>
+        <input type="text" readonly class="form-control" id="col12" value="{{data['OSF']}}">
+      </div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <label for="col13" class="form-label">Random Failure(RNF)</label>
+        <input type="text" readonly class="form-control" id="col13" value="{{data['RNF']}}">
+      </div>
+    </form>
+  </div>
+  </body>
+</html>
