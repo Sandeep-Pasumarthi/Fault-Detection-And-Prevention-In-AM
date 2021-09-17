@@ -1,6 +1,10 @@
 # AI14-Predictive-Maintenance
+* Objective - To find whether a machine created in industrial process will fail to wok or not.
+* Proposed Solution - Using data preprocessing, machine learning to achieve this task.<br>
+
 **Website Link - [Click Here](https://machine-failure-ml.herokuapp.com/)** <br>
-:information_source: **Website may load slow beacuse of used free resources for database management(cassandra) and deploying(heroku).**
+
+:information_source: **Website may load slow because of used free resources for database management(cassandra) and deploying(heroku).**
 ## Data Description
 The data set is a synthetic dataset that reflects real predictive maintenance encountered in industry. This includes 14 attributes/columns includes target attribute also.<br>
 
@@ -27,22 +31,3 @@ The data set is a synthetic dataset that reflects real predictive maintenance en
 * Web pages - html, css, bootstrap.
 * Routing - flask.
 * Workflow and deployement - gunicorn, heroku, github actions.
-
-## Process Followed
-1. Removed unimportant columns like UID(which is nothing but a unique identifier), Product ID(The detail is given in Type column).
-2. Generated schema for remaining columns excluding target. For numeric attributes, minimum and maximum are stored and for discrete attributes, unique values are stored.
-3. Exploratory Data Analysis.
-4. Initial Processing like removing skewness and feature engineering.
-5. Split data for training and testing.
-6. Encoding discrete columns using ordinal encoder.
-7. Scaling training data using robust scalar(for making outliers to fall in usual range) first and then using standard scalar(for normalizing data).
-8. Transforming and encoding test data using same scalars and encoder.
-9. Clustered train data using KMeans clustering. K=8 after experimenting with different values.
-10. Experimented different models like logistic regression, decision tree, random forest etc. But random forest gave importances to attributes better than other algorithms.
-11. Grid Search CV for hyper parameter tuning.
-12. Training random forest model and stored it.
-13. Removed unimportant features using random forest feature importances and trained again random forest model with new train data.
-14. Created prediction process.
-15. Created web pages for web application.
-16. Using flask created app.
-17. Deployed it in heroku platform using github actions.
