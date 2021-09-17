@@ -1,6 +1,6 @@
 # AI14-Predictive-Maintenance
-**Website Link - [Click Here](https://machine-failure-ml.herokuapp.com/)**
-
+**Website Link - [Click Here](https://machine-failure-ml.herokuapp.com/)** <br>
+:information_source: **Website may load slow beacuse of used free resources for database management(cassandra) and deploying(heroku).**
 ## Data Description
 The data set is a synthetic dataset that reflects real predictive maintenance encountered in industry. This includes 14 attributes/columns includes target attribute also.<br>
 
