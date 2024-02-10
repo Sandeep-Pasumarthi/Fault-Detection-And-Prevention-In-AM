@@ -2,7 +2,7 @@
 * Objective - To find whether a machine created in industrial process will fail to wok or not.
 * Proposed Solution - Using data preprocessing, machine learning to achieve this task.<br>
 
-**Website Link - [Click Here](https://machine-failure-ml.herokuapp.com/)** <br>
+**Website Link - [Click Here]([https://machine-failure-ml.herokuapp.com/](https://fault-detection-prevention-prototype-swj0.onrender.com/))** <br>
 
 :information_source: **Website may load slow because of used free resources for database management(cassandra) and deploying(heroku).**
 ## Data Description
